@@ -9,7 +9,8 @@ export interface Register {
 export interface RegisterResponse {
   status: number;
   message: string;
-  data: {
+  token: string;
+  user: {
     userId: string;
     email: string;
     username: string;
