@@ -16,6 +16,10 @@ export const routes: Routes = [
             canActivate: [authGuard]
         },
         {
+            path: 'register', 
+            loadChildren: () => import('./register/routes')
+        },
+        {
             path: '**',
             loadComponent: () =>
                 import('./page-not-found/page-not-found').then((m) => m.PageNotFound),

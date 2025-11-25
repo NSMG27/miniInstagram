@@ -4,7 +4,7 @@ export default [
   {
     path: '',
     loadComponent: () =>
-      import('./login').then((m) => m.Login),
-      title: 'Inicio de sesión | Mini Instagram',
+      import('./register').then((m) => m.Register),
+      title: 'Registro | Mini Instagram',
   },
 ] as Routes;
