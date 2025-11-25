@@ -1,94 +1,57 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { Auth } from '../../../interfaces/auth.interface';
-//import { LocalStorageService } from './local-storage.service';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Auth, LoginResponse } from '../../../interfaces/auth.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  path: string = environment.apiUrl + '/login';
-  private isLoggedInVar: boolean = false;
 
-  constructor(
-    private http: HttpClient,
-    //private localStorageService: LocalStorageService,
-    private router: Router
-  ) {
-    //this.checkToken();
-  }
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
-  // Método para verificar si el usuario está autenticado
-  isLoggedIn(): boolean {
-    return this.isLoggedInVar;
-  }
+  private readonly loginUrl = environment.apiUrl + '/login';
 
-  // Método para cerrar sesión
-  logout(): void {
-    this.isLoggedInVar = false;
-    //this.localStorageService.clear();
-    this.router.navigate(['/login']);
-  }
+  // ✔ Login seguro en SSR (no usa localStorage si no hay navegador)
+  login(data: Auth): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.loginUrl, data).pipe(
+      map(response => {
 
-  saveToLocalStorage(token: string, value: string) {
-    //this.localStorageService.setItem(token, value);
-  }
-
-  /*retrieveFromLocalStorage(token: string) {
-    return this.localStorageService.getItem(token);
-  }*/
-
-  /*public checkToken(): void {
-    const token = this.retrieveFromLocalStorage('token');
-    this.isLoggedInVar = !!token;
-  }*/
-
-  public enviarDatos(datos: Auth): Observable<any> {
-    return this.http.post<any>(this.path, datos).pipe(
-      tap((response) => {
-        if (response.status === 200) {
-          this.isLoggedInVar = true;
-          this.saveToLocalStorage('token', response.data.token);
-          Swal.fire({
-            icon: 'success',
-            title: 'Login Successful',
-            text: response.message,
-          });
-          /*this.localStorageService.setItem(
-            'emailDataLogin',
-            response.data.user.email
-          );
-          this.localStorageService.setItem(
-            'roleDataLogin',
-            response.data.user.role
-          );
-          this.localStorageService.setItem(
-            'fullnameDataLogin',
-            response.data.user.fullname
-          );*/
-          this.router.navigateByUrl('/dashboard');
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.data.token);
         }
+
+        return response;
       }),
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'An unknown error occurred!';
-        if (error.status === 401) {
-          errorMessage = 'Unauthorized user, incorrect password.';
-        }
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: errorMessage,
-        });
-        throw error;
-      })
+      catchError(err => throwError(() => err))
     );
+  }
+
+  // ✔ Token seguro incluso en SSR
+  getToken(): string | null {
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
+    }
+    return localStorage.getItem('token');
+  }
+
+  // ✔ isAuthenticated seguro también en SSR
+  isAuthenticated(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+    return !!localStorage.getItem('token');
+  }
+
+  // ✔ logout sin explotar en SSR
+  logout(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    localStorage.removeItem('token');
   }
 }
