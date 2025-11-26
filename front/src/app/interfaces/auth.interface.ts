@@ -12,6 +12,7 @@ export interface LoginResponse {
       email: string;
       role: string;
       fullname: string;
+      username: string;
     }
   };
 }

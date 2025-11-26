@@ -9,13 +9,11 @@ import {
 import { inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { AuthService } from '../Services/Auth/auth.service';
 
-export const jwtInterceptorInterceptor: HttpInterceptorFn = (
+export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
@@ -24,27 +22,22 @@ export const jwtInterceptorInterceptor: HttpInterceptorFn = (
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
 
-  // 🚨 En SSR NO tocar la request (no hay token, ni localStorage)
+  // SSR → no interceptar
   if (!isPlatformBrowser(platformId)) {
     return next(req);
   }
 
-  // 🚀 En navegador sí usamos el token
   const token = authService.getToken();
-  let authReq = req;
 
-  if (token) {
-    authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-  }
+  const authReq = token
+    ? req.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
+      })
+    : req;
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
 
-      // 🚨 En SSR NO navegar
       if (!isPlatformBrowser(platformId)) {
         return throwError(() => error);
       }

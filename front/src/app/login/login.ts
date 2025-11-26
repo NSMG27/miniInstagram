@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { AuthService } from '../Core/Services/Auth/auth.service';
+import { UserSessionService } from '../Core/Services/UserSession/user-session.service';
 import { LoginResponse } from '../interfaces/auth.interface';
 import { Footer } from '../Components/footer/footer';
 
@@ -17,6 +18,7 @@ export class Login {
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private userSession = inject(UserSessionService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -42,7 +44,7 @@ export class Login {
       next: (response: LoginResponse) => {
 
         localStorage.setItem('token', response.data.token);
-
+        this.userSession.username = response.data.user.username;
         Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión exitoso',

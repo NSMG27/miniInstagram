@@ -1,0 +1,195 @@
+<div class="w-full min-h-screen text-white bg-black flex justify-center px-6">
+
+  <div class="w-full max-w-7xl flex gap-10 pt-10">
+
+    <!-- LEFT: Config menu -->
+    <aside class="hidden lg:flex flex-col w-80 gap-6">
+
+      <!-- Título -->
+      <h2 class="text-2xl font-semibold">Configuración</h2>
+
+      <!-- Centro de cuentas -->
+      <div class="bg-[#1e1e1e] rounded-xl p-5 border border-gray-800">
+        <div class="flex items-center gap-2 text-lg font-medium mb-2">
+          <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/8BzvYvUx2Eo.png" class="w-6 h-6" />
+          <span>Meta</span>
+        </div>
+
+        <p class="text-sm text-gray-300">
+          Administra tus experiencias conectadas y la configuración de tus cuentas en las tecnologías de Meta.
+        </p>
+
+        <ul class="mt-4 space-y-2 text-sm text-gray-400">
+          <li>Datos personales</li>
+          <li>Contraseña y seguridad</li>
+          <li>Preferencias de anuncios</li>
+        </ul>
+
+        <a href="#" class="text-blue-500 mt-4 inline-block text-sm hover:underline">
+          Más información en el Centro de cuentas
+        </a>
+      </div>
+
+      <!-- Menu interno -->
+      <nav class="flex flex-col gap-1 text-gray-300 text-sm">
+
+        <button class="w-full text-left py-2 px-3 bg-gray-800 rounded-lg font-semibold">
+          Editar perfil
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Notificaciones
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Privacidad de la cuenta
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Mejores amigos
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Cuentas bloqueadas
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Historia y ubicación
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Mensajes y respuestas a historias
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Etiquetas y menciones
+        </button>
+
+        <button class="w-full text-left py-2 px-3 hover:bg-gray-900 rounded-lg">
+          Comentarios
+        </button>
+
+      </nav>
+
+    </aside>
+
+    <!-- RIGHT: EDIT FORM -->
+    <main class="flex-1 max-w-3xl">
+
+      <!-- Header -->
+      <h2 class="text-2xl font-semibold mb-10">Editar perfil</h2>
+
+      <!-- USER CARD -->
+      <div class="bg-[#1e1e1e] rounded-xl p-5 flex items-center justify-between border border-gray-800">
+
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-full bg-gray-700"></div>
+          <div>
+            <p class="text-lg font-medium">{{ profile?.user?.username }}</p>
+            <p class="text-sm text-gray-400">{{ profile?.user?.name }}</p>
+          </div>
+        </div>
+
+        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm">
+          Cambiar foto
+        </button>
+
+      </div>
+
+      <!-- FORM -->
+      <form class="mt-10 space-y-10">
+
+        <!-- Sitio web -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Sitio web</label>
+         <input
+            type="text"
+            formControlName="website"
+            placeholder="Sitio web"
+            class="w-full bg-transparent border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gray-600"
+          />
+          <p class="text-xs text-gray-400 mt-2">
+            Solo puedes editar tus enlaces en móviles.
+          </p>
+        </div>
+
+        <!-- Presentación -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Presentación</label>
+          <textarea
+            rows="4"
+            placeholder="Presentación"
+            maxlength="150"
+            formControlName="bio"
+            class="w-full bg-transparent border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gray-600"
+          ></textarea>
+          <div class="text-xs text-gray-500 text-right">0 / 150</div>
+        </div>
+
+        <!-- Sexo -->
+        <div>
+          <label class="block text-sm font-medium mb-3">Sexo</label>
+
+          <select
+            formControlName="gender"
+            class="w-full bg-transparent border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gray-600"
+          >
+            <option class="bg-black" value="none">Prefiero no decirlo</option>
+            <option class="bg-black" value="male">Masculino</option>
+            <option class="bg-black" value="female">Femenino</option>
+          </select>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Esto no formará parte de tu perfil público.
+          </p>
+        </div>
+
+        <!-- Toggle sugerencias -->
+        <div class="bg-[#1e1e1e] border border-gray-800 rounded-xl p-5">
+
+          <label class="font-medium">Mostrar sugerencias de cuentas en los perfiles</label>
+
+          <p class="text-sm text-gray-400 mt-1">
+            Elige si la gente puede ver sugerencias de cuentas similares.
+          </p>
+          
+
+          <div class="flex h-6 items-center">
+          <div
+            class="group relative inline-flex w-8 shrink-0 rounded-full bg-gray-200 p-px 
+                  inset-ring inset-ring-gray-900/5 outline-offset-2 
+                  outline-indigo-600 transition-colors duration-200 ease-in-out 
+                  has-[:checked]:bg-indigo-600 has-[:focus-visible]:outline-2">
+
+            <span 
+              class="size-4 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 
+                    transition-transform duration-200 ease-in-out 
+                    group-has-[:checked]:translate-x-3.5">
+            </span>
+
+            <input 
+              type="checkbox"
+              formControlName="suggestAccounts"
+              class="absolute inset-0 appearance-none focus:outline-hidden"
+            />
+
+          </div>
+        </div>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="flex justify-end">
+          <button
+            class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-xl text-sm font-medium">
+            Enviar
+          </button>
+        </div>
+
+      </form>
+
+    </main>
+
+  </div>
+
+</div>

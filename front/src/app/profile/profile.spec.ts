@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardIndex } from './dashboard-index';
+import { Profile } from './profile';
 
-describe('DashboardIndex', () => {
-  let component: DashboardIndex;
-  let fixture: ComponentFixture<DashboardIndex>;
+describe('Profile', () => {
+  let component: Profile;
+  let fixture: ComponentFixture<Profile>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardIndex]
+      imports: [Profile]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardIndex);
+    fixture = TestBed.createComponent(Profile);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
