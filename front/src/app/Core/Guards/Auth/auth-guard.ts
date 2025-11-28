@@ -1,21 +1,22 @@
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../../Services/Auth/auth.service';
+import { UserSessionService } from '../../Services/UserSession/user-session.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-
-  const authService = inject(AuthService);
+  const userSession = inject(UserSessionService);
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
 
-  // 🚀 En SSR NO bloqueamos, dejamos continuar
+  // 🌐 SSR → siempre permitir (no existe localStorage aquí)
   if (!isPlatformBrowser(platformId)) {
     return true;
   }
 
-  // 🚀 En navegador SÍ verificamos token
-  if (!authService.isAuthenticated()) {
+  // 🔐 Validar solo si hay token (expiración la valida el interceptor)
+  const token = userSession.token;
+
+  if (!token) {
     return router.createUrlTree(
       ['/login'],
       { queryParams: { returnUrl: state.url } }

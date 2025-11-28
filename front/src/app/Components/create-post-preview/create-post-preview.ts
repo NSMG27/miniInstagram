@@ -52,9 +52,9 @@ export class CreatePostPreview {
     this.loading.set(true);
     this.error.set(false);
 
-    const formData = new FormData();
-    formData.append('file', this.file); // nombre estándar del backend
-    formData.append('description', this.description());
+    const formData  = new FormData();
+    formData.append('image', this.file); // nombre estándar del backend
+    formData.append('caption', this.description());
 
     this.postService.createPost(formData).subscribe({
       next: () => {
@@ -62,7 +62,6 @@ export class CreatePostPreview {
         this.close.emit(); // cierra modal
       },
       error: (err) => {
-        console.error('Error al publicar:', err);
         this.loading.set(false);
         this.error.set(true);
       }

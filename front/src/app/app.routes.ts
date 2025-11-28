@@ -14,7 +14,7 @@ export const routes: Routes = [
             path: 'dashboard',
             title: 'Dashboard | Mini Instagram',
             loadChildren: () => import('./dashboard/routes'), 
-            //canActivate: [authGuard]
+            canActivate: [authGuard]
         },
         {
             path: 'register', 

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { postIdGuard } from '../../Core/Guards/PostId/post-id-guard';
 
 export default [
   {
@@ -11,16 +12,6 @@ export default [
         loadComponent: () =>
           import('../profile-posts/profile-posts')
             .then(m => m.ProfilePosts)
-            .catch(err => {
-              console.error('Error loading Feed', err);
-              return null;
-            }),
-      },
-      {
-        path: ':post',
-        loadComponent: () =>
-          import('../post-detail/post-detail')
-            .then(m => m.PostDetail)
             .catch(err => {
               console.error('Error loading Feed', err);
               return null;
@@ -56,9 +47,20 @@ export default [
           actionLabel: 'Volver al perfil'
         }
       },
+      {
+        path: ':post',
+        canActivate: [postIdGuard],
+        loadComponent: () =>
+          import('../post-detail/post-detail')
+            .then(m => m.PostDetail)
+            .catch(err => {
+              console.error('Error loading Feed', err);
+              return null;
+            }),
+      },
       // 404 interno del dashboard
       {
-        path: './**',
+        path: '**',
         loadComponent: () =>
           import('../../page-not-found/page-not-found')
             .then(m => m.PageNotFound)

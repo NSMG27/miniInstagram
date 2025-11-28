@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router  } from '@angular/router';
 import { PostService } from '../../Core/Services/Post/post.service';
 
 @Component({
@@ -11,10 +11,12 @@ import { PostService } from '../../Core/Services/Post/post.service';
 export class PostDetail {
   private route = inject(ActivatedRoute);
   private postService = inject(PostService);
+  private router = inject(Router);
 
   post = signal<any | null>(null);
   loading = signal(true);
   error = signal(false);
+  deleting = signal(false);
 
   newComment = signal('');
 
@@ -53,5 +55,35 @@ export class PostDetail {
 
     this.post.set(updated);
     this.newComment.set('');
+  }
+
+  deletePost() {
+    const postId = this.route.snapshot.params['id'];
+    
+    if (!postId || this.deleting()) return;
+
+    // Confirmación antes de eliminar
+    if (!confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+      return;
+    }
+
+    this.deleting.set(true);
+
+    this.postService.deletePostById(postId).subscribe({
+      next: () => {
+        console.log('Post eliminado exitosamente');
+        // Redirigir a la lista de posts o página principal
+        this.router.navigate(['/posts']);
+      },
+      error: (err) => {
+        console.error('Error al eliminar el post:', err);
+        alert('Ocurrió un error al eliminar la publicación. Intenta de nuevo.');
+        this.deleting.set(false);
+      }
+    });
+  }
+
+  goBack() {
+    this.router.navigate(['/posts']);
   }
 }

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { profileResolver } from '../Core/Resolver/Profile/profile-resolver';
 
 export default [
   {
@@ -9,9 +8,6 @@ export default [
     children: [
       {
         path: '',
-        resolve: { 
-          profileData: profileResolver 
-        },
         loadComponent: () =>
           import('../Components/edit-profile/edit-profile')
             .then(m => m.EditProfile)

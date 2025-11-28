@@ -7,6 +7,7 @@ import { AuthService } from '../Core/Services/Auth/auth.service';
 import { UserSessionService } from '../Core/Services/UserSession/user-session.service';
 import { LoginResponse } from '../interfaces/auth.interface';
 import { Footer } from '../Components/footer/footer';
+import { ErrorHandlerService } from '../Core/Services/ErrorHandler/error-handler.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private userSession = inject(UserSessionService);
+  private errorHandler = inject(ErrorHandlerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -42,18 +44,13 @@ export class Login {
 
     this.authService.login(formData).subscribe({
       next: (response: LoginResponse) => {
-
-        localStorage.setItem('token', response.data.token);
-        this.userSession.username = response.data.user.username;
         Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión exitoso',
           text: response.message,
         });
 
-        const returnUrl =
-          this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
-
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
         this.router.navigateByUrl(returnUrl);
       },
 

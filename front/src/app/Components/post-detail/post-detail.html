@@ -12,6 +12,15 @@
 
     <div class="flex bg-[#1a1a1a] w-[90vw] max-w-6xl h-[90vh] rounded-lg overflow-hidden">
 
+      <!-- BOTÓN CERRAR/VOLVER -->
+      <button 
+        class="absolute top-4 right-4 z-10 text-white text-3xl hover:text-gray-400 transition-colors"
+        (click)="goBack()"
+        title="Cerrar"
+      >
+        ✕
+      </button>
+
       <!-- LEFT: IMAGE -->
       <div class="flex-1 bg-black flex items-center justify-center">
         <img 
@@ -27,6 +36,19 @@
         <div class="flex items-center gap-3 p-4 border-b border-gray-700">
           <div class="w-10 h-10 rounded-full bg-gray-600"></div>
           <span class="font-semibold text-white">{{ p.user }}</span>
+          <!-- BOTÓN ELIMINAR -->
+          <button 
+            class="ml-auto text-red-500 hover:text-red-400 transition-colors px-3 py-1 rounded-md hover:bg-red-500/10"
+            (click)="deletePost()"
+            [disabled]="deleting()"
+            title="Eliminar publicación"
+          >
+            @if (deleting()) {
+              <span class="text-sm">Eliminando...</span>
+            } @else {
+              🗑️
+            }
+          </button>
         </div>
 
         <!-- COMMENTS LIST -->

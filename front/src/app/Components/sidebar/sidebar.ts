@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { UserSessionService } from '../../Core/Services/UserSession/user-session.service';
-import { LogoutManagerService } from '../../Core/Services/LogoutManager/logout-manager.service';
+import { AuthService } from '../../Core/Services/Auth/auth.service';
 import { CreatePostModalService } from '../../Core/Services/CreatePostModal/create-post-modal.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class Sidebar {
   constructor(private sanitizer: DomSanitizer) {}
 
   private session = inject(UserSessionService);
-  private logoutManager = inject(LogoutManagerService);
+  private authService = inject(AuthService);
   private modal = inject(CreatePostModalService);
 
     menu = [
@@ -127,7 +127,7 @@ export class Sidebar {
     }
 
     if (item.action === 'logout') {
-      this.logoutManager.logout();
+      this.authService.logout();
     }
   }
 

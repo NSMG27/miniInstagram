@@ -1,6 +1,7 @@
 import { Component, Input, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PostService } from '../../Core/Services/Post/post.service';
+import { ProfileService } from '../../Core/Services/Profile/profile.service';
+//import { PostService } from '../../Core/Services/Post/post.service';
 
 @Component({
   selector: 'app-profile-posts',
@@ -15,7 +16,8 @@ export class ProfilePosts {
   loading = signal(true);
   error = signal(false);
 
-  private postService = inject(PostService);
+  //private postService = inject(PostService);
+  private profileService = inject(ProfileService);
 
   ngOnInit() {
     this.loadPosts();

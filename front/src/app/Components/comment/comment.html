@@ -1,4 +1,49 @@
-<p class="px-4 py-2">
-  <span class="font-semibold">{{ user }}</span>
-  {{ description }}
-</p>
+<div class="px-4 py-2 flex flex-col gap-4">
+
+  <!-- INPUT PARA NUEVO COMENTARIO -->
+  <div class="flex gap-2 items-center">
+    <input 
+      type="text"
+      class="flex-1 bg-transparent border border-gray-600 rounded-lg px-3 py-2 text-sm text-white
+             disabled:opacity-50"
+      placeholder="Añade un comentario…"
+      [disabled]="posting()"
+      [value]="newComment()"
+      (input)="newComment.set($any($event.target).value)"
+    />
+
+    <button
+      (click)="publishComment()"
+      [disabled]="posting() || !newComment().trim()"
+      class="text-blue-500 font-semibold text-sm hover:text-blue-400 disabled:opacity-40"
+    >
+      @if (posting()) {
+        Publicando…
+      } @else {
+        Publicar
+      }
+    </button>
+  </div>
+
+  <!-- LOADING INICIAL -->
+  @if (loading()) {
+    <p class="text-gray-400 text-sm">Cargando comentarios…</p>
+  }
+
+  <!-- ERROR -->
+  @if (error()) {
+    <p class="text-red-500 text-sm">{{ error() }}</p>
+  }
+
+  <!-- LISTA DE COMENTARIOS -->
+  @if (!loading() && !error()) {
+    @for (comment of comments(); track comment.id) {
+
+      <p class="py-1">
+        <span class="font-semibold">{{ comment.user }}</span>
+        {{ comment.text }}
+      </p>
+
+    }
+  }
+</div>

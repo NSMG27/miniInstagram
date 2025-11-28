@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LogoutManagerService } from './logout-manager.service';
+import { ErrorHandlerService } from './error-handler.service';
 
-describe('LogoutManagerService', () => {
-  let service: LogoutManagerService;
+describe('ErrorHandlerService', () => {
+  let service: ErrorHandlerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LogoutManagerService);
+    service = TestBed.inject(ErrorHandlerService);
   });
 
   it('should be created', () => {
