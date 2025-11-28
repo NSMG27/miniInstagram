@@ -1,0 +1,38 @@
+<div class="mt-10 border-t border-gray-800 flex justify-center">
+  <div class="flex gap-14 py-4 text-gray-400 text-sm">
+
+    <!-- PUBLICACIONES -->
+    <a
+      class="cursor-pointer hover:text-white transition flex items-center gap-1"
+      [routerLink]="['./']"
+      routerLinkActive="text-white font-semibold"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Publicaciones"
+    >
+      <span class="hidden sm:inline">Publicaciones</span>
+    </a>
+
+    <!-- GUARDADOS -->
+    <a
+      class="cursor-pointer hover:text-white transition flex items-center gap-1"
+      [routerLink]="['./saved']"
+      routerLinkActive="text-white font-semibold"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Guardados"
+    >
+      <span class="hidden sm:inline">Guardados</span>
+    </a>
+
+    <!-- ETIQUETADAS -->
+    <a
+      class="cursor-pointer hover:text-white transition flex items-center gap-1"
+      [routerLink]="['./tagged']"
+      routerLinkActive="text-white font-semibold"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Etiquetadas"
+    >
+      <span class="hidden sm:inline">Etiquetadas</span>
+    </a>
+
+  </div>
+</div>

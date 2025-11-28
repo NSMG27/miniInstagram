@@ -4,15 +4,28 @@
   </section>
 
   <!-- Menu -->
-   @for (item of menu; track item) {
-    <a
+  @for (item of menu; track item) {
+    @if (!item.action) {
+      <a
         class="mt-1 mb-1 p-3 flex items-center gap-3 cursor-pointer hover:text-gray-300 transition"
         [routerLink]="item.getRoute ? item.getRoute() : item.route"
         routerLinkActive="text-gray-400 font-semibold"
+        [routerLinkActiveOptions]="{ exact: true }"
         aria-label="{{ item.label }}"
       >
         <span [innerHTML]="item.icon" class="text-white w-6 h-6"></span>
         <span>{{ item.label }}</span>
       </a>
+    }
+    @if (item.action) {
+      <a
+        class="mt-1 mb-1 p-3 flex items-center gap-3 cursor-pointer hover:text-gray-300 transition"
+        (click)="handleClick(item)"
+        aria-label="{{ item.label }}"
+      >
+        <span [innerHTML]="item.icon" class="text-white w-6 h-6"></span>
+        <span>{{ item.label }}</span>
+      </a>
+    }
   }
 </div>

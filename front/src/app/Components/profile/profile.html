@@ -42,46 +42,10 @@
 
       </div>
     </div>
+     <!-- Tabs inferior -->
+    <app-profiletabs />
 
-
-    <!-- Tabs inferior (grid, reels, guardados, etiquetas) -->
-    <div class="mt-10 border-t border-gray-800 flex justify-center">
-      <div class="flex gap-14 py-4 text-gray-400 text-sm">
-
-        <div class="cursor-pointer hover:text-white transition flex items-center gap-1">
-          <span class="material-icons text-lg">grid_on</span>
-          <span class="hidden sm:inline">Publicaciones</span>
-        </div>
-
-        <div class="cursor-pointer hover:text-white transition flex items-center gap-1">
-          <span class="material-icons text-lg">bookmark_border</span>
-          <span class="hidden sm:inline">Guardados</span>
-        </div>
-
-        <div class="cursor-pointer hover:text-white transition flex items-center gap-1">
-          <span class="material-icons text-lg">person_pin</span>
-          <span class="hidden sm:inline">Etiquetadas</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección publicar nueva foto -->
-    <div class="flex flex-col items-center text-center mt-16 px-4">
-      
-      <div class="w-24 h-24 rounded-full border border-gray-700 flex items-center justify-center">
-        <span class="text-4xl">+</span>
-      </div>
-
-      <h2 class="text-xl font-semibold mt-8">Comparte fotos</h2>
-
-      <p class="text-gray-400 mt-2 max-w-xs">
-        Cuando compartas fotos, aparecerán en tu perfil.
-      </p>
-
-      <button class="text-blue-500 mt-4 font-medium hover:underline">
-        Comparte tu primera foto
-      </button>
-    </div>
+    <router-outlet></router-outlet>
   </section>
 
   <app-footer class="bg-black"></app-footer>

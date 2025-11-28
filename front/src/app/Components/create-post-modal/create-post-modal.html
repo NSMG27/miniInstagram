@@ -1,0 +1,25 @@
+<div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+
+  <div class="bg-[#1a1a1a] w-full max-w-xl rounded-xl p-10 text-center">
+
+    <!-- Cerrar -->
+    <button class="absolute right-5 top-5 text-gray-300" (click)="close.emit()">✕</button>
+
+    <h2 class="text-xl font-semibold mb-6">Crear nueva publicación</h2>
+
+    <div class="text-gray-300 mb-6">Arrastra las fotos y vídeos aquí</div>
+
+    <!-- Input oculto -->
+    <input #fileInput type="file" class="hidden" accept="image/*,video/*"
+           (change)="onFileChosen($event)" />
+
+    <button 
+      class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-white"
+      (click)="triggerFile(fileInput)"
+    >
+      Seleccionar del ordenador
+    </button>
+
+  </div>
+
+</div>

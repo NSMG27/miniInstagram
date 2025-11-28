@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ProfileData } from '../../interfaces/profile.interface';
 import { Footer } from '../footer/footer';
+import { Profiletabs } from '../profiletabs/profiletabs';
 
 @Component({
   selector: 'app-profile',
-  imports: [RouterLink, Footer],
+  imports: [RouterLink, RouterOutlet, Profiletabs, Footer],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

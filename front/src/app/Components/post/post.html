@@ -1,0 +1,63 @@
+@switch (true) {
+  @case (loading()) {
+    <div class="p-6 text-center text-gray-400">
+      Cargando publicación...
+    </div>
+  }
+
+  @case (error()) {
+    <div class="p-6 text-center text-red-400">
+      Error al cargar la publicación.<br />
+      Verifica la conexión con el servidor.
+    </div>
+  }
+
+  @default {
+    @if (post(); as p) {
+
+      <article class="bg-black border border-gray-800 rounded-lg">
+
+        <!-- Header -->
+        <div class="flex items-center gap-3 px-4 py-3">
+          <img [src]="p.avatar" class="w-10 h-10 rounded-full" />
+          <div>
+            <p class="font-semibold">{{ p.user }}</p>
+            <small class="text-gray-400">{{ p.time }}</small>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <img 
+          [src]="p.image" 
+          class="w-full max-h-[650px] sm:max-h-[700px] object-cover" 
+        />
+
+        <!-- Icons -->
+        <div class="px-4 py-2 flex gap-4 text-2xl">
+          ❤️ 💬 🔁
+        </div>
+
+        <!-- Likes -->
+        <p class="px-4 font-semibold">{{ p.likes }} Me gusta</p>
+
+        <!-- Description -->
+        <app-comment 
+          [user]="p.user"
+          [description]="p.description"
+        />
+
+        <!-- Comments -->
+        <div class="px-4 py-3 flex flex-col gap-2">
+          @for (comment of p.comments; track comment) {
+            <app-comment
+              [user]="comment.user"
+              [description]="comment.text"
+            />
+          }
+        </div>
+
+      </article>
+
+    }
+  }
+}

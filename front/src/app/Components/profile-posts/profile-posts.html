@@ -1,0 +1,58 @@
+@switch (true) {
+
+  @case (loading()) {
+    <div class="grid grid-cols-3 gap-1 sm:gap-2 md:gap-4 p-4 animate-pulse">
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="bg-gray-800 h-32 sm:h-40 md:h-48"></div>
+      }
+    </div>
+  }
+
+  @case (error()) {
+    <div class="p-10 text-center text-red-400">
+      Error al cargar las publicaciones.
+    </div>
+  }
+
+  @default {
+
+    @if (posts().length === 0) {
+      <div class="p-10 text-center text-gray-500">
+        No hay publicaciones aún.
+      </div>
+    }
+
+    @if (posts().length > 0) {
+
+      <div class="grid grid-cols-3 gap-1 sm:gap-2 md:gap-4 p-4">
+
+        @for (post of posts(); track post.id) {
+
+          <button
+            class="relative group cursor-pointer overflow-hidden"
+            [routerLink]="['./', post.id]"
+          >
+
+            <!-- Imagen -->
+            <img
+              [src]="post.image"
+              class="w-[250px] h-[250px] object-cover group-hover:opacity-60 transition"
+            />
+
+            <!-- Hover overlay -->
+            <div 
+              class="absolute inset-0 flex items-center justify-center text-white text-xl opacity-0 group-hover:opacity-100 transition"
+            >
+              ❤️ {{ post.likes }}
+            </div>
+
+          </button>
+
+        }
+
+      </div>
+    }
+
+  }
+
+}

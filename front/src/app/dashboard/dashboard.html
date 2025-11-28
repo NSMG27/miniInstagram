@@ -2,23 +2,41 @@
 
   <!-- Sidebar Desktop -->
   <aside
-    class="hidden lg:block w-[335px] border-r border-gray-800">
+    class="hidden lg:block w-[335px] border-r border-gray-800 sticky top-0 h-screen overflow-y-auto">
     <app-sidebar></app-sidebar>
   </aside>
 
-  <main class="flex-1 flex justify-center pb-16 lg:pb-0">
+  <main class="flex-1 flex justify-center pb-16 lg:pb-0 overflow-y-auto">
       <router-outlet></router-outlet>
   </main>
 
   <!-- Mobile Bottom Navigation -->
   <nav
-    class="lg:hidden fixed bottom-0 left-0 w-full bg-black border-t border-gray-800 flex justify-around py-3 text-2xl">
-    <button class="hover:text-gray-300">🏠</button>
-    <button class="hover:text-gray-300">🔍</button>
-    <button class="hover:text-gray-300">➕</button>
-    <button class="hover:text-gray-300">🎬</button>
-    <button class="hover:text-gray-300">👤</button>
+    class="lg:hidden fixed bottom-0 left-0 w-full bg-black border-t border-gray-800 
+           flex justify-around py-3 text-2xl">
+    <button class="hover:text-gray-300" [routerLink]="['./']">🏠</button>
+    <button class="hover:text-gray-300" [routerLink]="['./']">🔍</button>
+    <button class="hover:text-gray-300" [routerLink]="['./']">➕</button>
+    <button class="hover:text-gray-300" [routerLink]="['./']">🎬</button>
+    <button class="hover:text-gray-300" [routerLink]="[routeToProfile]">👤</button>
   </nav>
+ <!-- ===================== -->
+  <!--       MODAL 1         -->
+  <!-- ===================== -->
+  @if (modal.isOpen() && !modal.selectedFile()) {
+    <app-create-post-modal
+      (close)="modal.close()"
+      (fileSelected)="modal.setFile($event)"
+    />
+  }
 
+  <!-- ===================== -->
+  <!--       MODAL 2         -->
+  <!-- ===================== -->
+  @if (modal.isOpen() && modal.selectedFile()) {
+    <app-create-post-preview
+      [file]="modal.selectedFile()!"
+      (close)="modal.reset()"
+    />
+  }
 </div>
-

@@ -1,39 +1,29 @@
 <section class="flex-1 flex justify-center overflow-y-auto">
   <div class="w-full sm:w-[500px] md:w-[550px] lg:w-[630px] mt-4 px-3">
-    <div class="flex flex-col gap-10">
-      @for (post of posts; track post) {
 
-        <article class="bg-black border border-gray-800 rounded-lg">
+    @switch (true) {
 
-          <div class="flex items-center gap-3 px-4 py-3">
-            <img [src]="post.avatar" class="w-10 h-10 rounded-full" />
-            <div>
-              <p class="font-semibold">{{ post.user }}</p>
-              <small class="text-gray-400">{{ post.time }}</small>
-            </div>
-          </div>
-
-          <img [src]="post.image" class="w-full max-h-[650px] sm:max-h-[700px] object-cover" />
-
-          <div class="px-4 py-2 flex gap-4 text-2xl">
-            ❤️ 💬 🔁
-          </div>
-
-          <p class="px-4 font-semibold">{{ post.likes }} Me gusta</p>
-
-          <p class="px-4 py-2">
-            <span class="font-semibold">{{ post.user }}</span>
-            {{ post.description }}
-          </p>
-
-        </article>
-
+      @case (loading()) {
+        <p class="text-gray-400 text-center">Cargando publicaciones...</p>
       }
-    </div>
+
+      @case (error()) {
+        <p class="text-red-400 text-center">Error cargando publicaciones.</p>
+      }
+
+      @default {
+        <div class="flex flex-col gap-10">
+
+          @for (post of posts(); track post.id) {
+            <app-post [postId]="post.id"></app-post>
+          }
+        </div>
+      }
+    }
+
   </div>
   <!-- Right Panel -->
   <aside class="hidden xl:block w-[319px] pl-16 mt-9">
     <app-suggestions></app-suggestions>
   </aside>
-
 </section>

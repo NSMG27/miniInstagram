@@ -1,0 +1,86 @@
+<div class="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+
+  @if (loading()) {
+    <p class="text-white text-lg">Cargando publicación...</p>
+  }
+
+  @if (error()) {
+    <p class="text-red-400 text-lg">Error al cargar la publicación.</p>
+  }
+
+  @if (post(); as p) {
+
+    <div class="flex bg-[#1a1a1a] w-[90vw] max-w-6xl h-[90vh] rounded-lg overflow-hidden">
+
+      <!-- LEFT: IMAGE -->
+      <div class="flex-1 bg-black flex items-center justify-center">
+        <img 
+          [src]="p.image"
+          class="max-h-full max-w-full object-contain"
+        />
+      </div>
+
+      <!-- RIGHT: COMMENTS PANEL -->
+      <div class="w-[380px] flex flex-col bg-[#121212] border-l border-gray-700">
+
+        <!-- HEADER -->
+        <div class="flex items-center gap-3 p-4 border-b border-gray-700">
+          <div class="w-10 h-10 rounded-full bg-gray-600"></div>
+          <span class="font-semibold text-white">{{ p.user }}</span>
+        </div>
+
+        <!-- COMMENTS LIST -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+          @if (p.comments.length === 0) {
+            <div class="text-center text-gray-400 mt-20">
+              <p class="text-lg font-semibold">Todavía no hay comentarios.</p>
+              <p class="text-sm">Inicia la conversación.</p>
+            </div>
+          }
+
+          @for (comment of p.comments; track comment) {
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-gray-600"></div>
+              <div>
+                <span class="font-semibold text-white">{{ comment.user }}</span>
+                <span class="text-gray-300">{{ comment.text }}</span>
+                <p class="text-xs text-gray-500 mt-1">{{ comment.time }}</p>
+              </div>
+            </div>
+          }
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="p-4 border-t border-gray-700">
+
+          <div class="flex gap-4 text-2xl mb-3">
+            ❤️ 💬 🔁
+          </div>
+
+          <p class="font-semibold text-white mb-3">{{ p.likes }} Me gusta</p>
+
+          <!-- Add comment -->
+          <div class="flex items-center gap-2">
+            <input 
+              type="text"
+              class="flex-1 bg-transparent text-white border border-gray-700 rounded-lg px-3 py-2 text-sm"
+              placeholder="Añade un comentario..."
+              [value]="newComment()"
+              (input)="newComment.set($any($event.target).value)"
+            />
+
+            <button 
+              class="text-blue-500 font-semibold"
+              (click)="addComment()"
+            >Publicar</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  }
+</div>

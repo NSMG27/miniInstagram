@@ -1,21 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
+import { PostService } from '../../Core/Services/Post/post.service';
 import { Suggestions } from '../suggestions/suggestions';
+import { Post } from '../post/post';
 
 @Component({
   selector: 'app-feed',
-  imports: [Suggestions],
+  imports: [Suggestions, Post],
   templateUrl: './feed.html',
   styleUrl: './feed.css',
 })
 export class Feed {
-    posts = [
-    {
-      user: 'reelshortapp',
-      avatar: 'https://i.pravatar.cc/50',
-      image: 'https://picsum.photos/600/900',
-      likes: 732,
-      description: 'Some truths are too painful to believe...',
-      time: '13 h'
-    }
-  ];
+  posts = signal<any[]>([]);
+  loading = signal<boolean>(true);
+  error = signal<boolean>(false);
+
+  constructor(private postService: PostService) {}
+
+  ngOnInit() {
+
+    this.loading.set(true);
+    this.error.set(false);
+
+    this.postService.getAllPosts().subscribe({
+      next: (data) => {
+        this.posts.set(data);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error cargando posts:', err);
+        this.error.set(true);
+        this.loading.set(false);
+      },
+    });
+  }
 }

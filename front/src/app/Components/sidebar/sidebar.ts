@@ -3,6 +3,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { UserSessionService } from '../../Core/Services/UserSession/user-session.service';
+import { LogoutManagerService } from '../../Core/Services/LogoutManager/logout-manager.service';
+import { CreatePostModalService } from '../../Core/Services/CreatePostModal/create-post-modal.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,6 +20,8 @@ export class Sidebar {
   constructor(private sanitizer: DomSanitizer) {}
 
   private session = inject(UserSessionService);
+  private logoutManager = inject(LogoutManagerService);
+  private modal = inject(CreatePostModalService);
 
     menu = [
     {
@@ -83,7 +87,7 @@ export class Sidebar {
     },
     {
       label: 'Crear',
-      route: './crear',
+      action: 'openCreateModal',
       icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -102,8 +106,30 @@ export class Sidebar {
                       d="M5.121 17.804A9 9 0 1118.88 17.804M15 
                          11a3 3 0 11-6 0 3 3 0 016 0z"/>
              </svg>`
+    },
+    {
+      label: 'Cerrar sesión',
+      action: 'logout',
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5.121 17.804A9 9 0 1118.88 17.804M15 
+                         11a3 3 0 11-6 0 3 3 0 016 0z"/>
+             </svg>`
     }
   ];
+
+  handleClick(item: any) {
+    if (item.action === 'openCreateModal') {
+      this.modal.open();
+      return;
+    }
+
+    if (item.action === 'logout') {
+      this.logoutManager.logout();
+    }
+  }
 
    safe(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

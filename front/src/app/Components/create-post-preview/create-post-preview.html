@@ -1,0 +1,56 @@
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+
+  <div class="bg-[#1a1a1a] w-full max-w-5xl rounded-xl overflow-hidden shadow-xl flex">
+    <!-- Cerrar -->
+    <button class="absolute right-5 top-5 text-gray-300" (click)="close.emit()">✕</button>
+    <!-- Left: Image -->
+    <div class="flex-1 bg-black flex items-center justify-center">
+      <img [src]="previewUrl()" class="max-h-[90vh] object-contain" />
+    </div>
+
+    <!-- Right: Description -->
+    <div class="w-[350px] p-5 flex flex-col gap-4 text-gray-300">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold">Crear publicación</h2>
+
+        <button 
+          class="text-blue-500 hover:underline"
+          (click)="publish()"
+          [disabled]="loading()"
+        >
+          Compartir
+        </button>
+      </div>
+
+      <!-- Profile info -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gray-600"></div>
+        <strong class="text-white">{{ username }}</strong>
+      </div>
+
+      <!-- Description textarea (Angular 21 compatible) -->
+      <textarea
+        class="w-full bg-transparent border border-gray-700 rounded-lg p-3 text-sm text-white resize-none"
+        placeholder="Escribe una descripción..."
+        maxlength="2200"
+        rows="6"
+        [value]="description()"
+        (input)="description.set($any($event.target).value)"
+      ></textarea>
+
+      <!-- Loading -->
+      @if (loading()) {
+        <p class="text-blue-400 text-sm">Subiendo...</p>
+      }
+
+      <!-- Error -->
+      @if (error()) {
+        <p class="text-red-400 text-sm">Ocurrió un error al publicar.</p>
+      }
+
+    </div>
+
+  </div>
+</div>

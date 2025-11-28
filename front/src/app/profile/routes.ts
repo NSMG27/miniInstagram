@@ -8,13 +8,7 @@ export default [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('../Components/profile/profile')
-            .then(m => m.Profile)
-            .catch(err => {
-              console.error('Error loading Feed', err);
-              return null;
-            }),
+        loadChildren: () => import('../../app/Components/profile/routes')
       },
       {
         path: 'edit',

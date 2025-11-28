@@ -31,9 +31,9 @@ export default [
       },
       {
         path: ':username',
-        canActivate: [authGuard, sessionGuard], //
+        canActivate: [], // authGuard, sessionGuard
         resolve: {
-          profileData: profileResolver
+          //profileData: profileResolver
         },
         loadChildren: () => import('../profile/routes')
       },
