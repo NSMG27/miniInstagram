@@ -42,16 +42,14 @@
 
         <!-- Description -->
         <app-comment 
-          [user]="p.user"
-          [description]="p.description"
+          [postId]="p.id"
         />
 
         <!-- Comments -->
         <div class="px-4 py-3 flex flex-col gap-2">
           @for (comment of p.comments; track comment) {
             <app-comment
-              [user]="comment.user"
-              [description]="comment.text"
+              [postId]="comment.id"
             />
           }
         </div>
